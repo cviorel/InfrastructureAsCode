@@ -1,0 +1,26 @@
+variable "do_token" {
+  default = ""
+}
+variable "ssh_key_fingerprint" {
+  default = "MY_SSH_KEY_FINGER_PRINT"
+}
+variable "size" {
+  default = "4gb"
+}
+
+variable "region" {
+  description = "London"
+  default = "lon1"
+}
+
+variable "image" {
+  default = "MY_IMAGE_ID"
+}
+
+variable "docker_server_count" {
+  default = "5"
+}
+
+variable "my_domain" {
+  default = "MY_DOMAIN"
+}

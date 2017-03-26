@@ -1,0 +1,14 @@
+---
+# Does initial setup of server
+- include: ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Install python modules
+  pip:
+    name: "{{ item }}"
+    extra_args: ' --upgrade '
+  with_items:
+    - pip
+    - docker-compose
+    - docker-py
+    - python-keyczar

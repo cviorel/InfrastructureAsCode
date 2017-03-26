@@ -1,0 +1,52 @@
+{
+  "variables": {
+    "api_token": "YOUR_API",
+    "region": "lon1"
+  },
+  "builders": [
+    {
+      "type": "digitalocean",
+      "api_token": "{{user `api_token`}}",
+      "region": "{{user `region`}}",
+      "ssh_username": "root",
+      "image": "ubuntu-16-10-x64",
+      "size": "512mb",
+      "snapshot_name": "haakco-ubuntu-16.04-lon1-{{isotime \"200601021504\"}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "inline": [
+        "update-locale LANG=en_US.UTF-8",
+        "sudo sed -i -e \"s/mirrors\\.digitalocean/archive\\.ubuntu/g\" /etc/apt/sources.list",
+        "apt-get update",
+        "apt-get install -y ansible python python-simplejson python-apt",
+        "curl -sSL https://agent.digitalocean.com/install.sh | sh"
+      ],
+      "inline_shebang": "/bin/sh -x",
+      "type": "shell"
+    },
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/bootstrap.yml",
+      "playbook_dir": "ansible"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "scripts": [
+        "scripts/cgroup-memory.sh",
+        "scripts/cleanup_initial.sh",
+        "scripts/motd.sh"
+      ],
+      "type": "shell"
+    },
+    {
+      "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
+      "scripts": [
+        "scripts/cleanup.sh"
+      ],
+      "type": "shell"
+    }
+  ]
+}

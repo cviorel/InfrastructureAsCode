@@ -1,0 +1,6 @@
+---
+
+# pip install passlib
+# python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.encrypt(getpass.getpass())"
+root_password: '$6$rounds=100000$c0lpZhmo5GQL9Hrv$c8qOETIt.rIDsUj5TkgVCKduTot1uHplmBKuNZYwY0r0X4OZX2yiMgiK6oSGRVumvyIqlcuQ.fujniPwbWoV0/'
+remote_password: '$6$rounds=100000$c0lpZhmo5GQL9Hrv$c8qOETIt.rIDsUj5TkgVCKduTot1uHplmBKuNZYwY0r0X4OZX2yiMgiK6oSGRVumvyIqlcuQ.fujniPwbWoV0/'

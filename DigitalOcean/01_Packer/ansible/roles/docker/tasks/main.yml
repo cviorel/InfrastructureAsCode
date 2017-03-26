@@ -1,0 +1,88 @@
+---
+
+- name: create docker config directory
+  file:
+    path: /etc/docker
+    state: directory
+    mode: "u+rwX,a-rX"
+    owner: root
+    group: root
+
+- name: create docker config directory
+  file:
+    path: /etc/systemd/system/docker.service.d
+    state: directory
+    mode: 0644
+    owner: root
+    group: root
+
+# configure docker deamon json file
+- name: configure docker daemon.json
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: 0644
+    owner: root
+
+- copy:
+    src: 10-machine.conf
+    dest: /etc/systemd/system/docker.service.d/10-machine.conf
+    mode: 0644
+    owner: root
+    group: root
+
+- copy:
+    src: "{{ role_path }}/files/docker_keys/"
+    dest: /etc/docker/
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Add docker key for apt
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: "{{ item }}"
+  with_items:
+    - "36A1D7869245C8950F966E92D8576A8BA88D21E9"
+    - "58118E89F3A912897C070ADBF76221572C52609D"
+    - "F76221572C52609D"
+
+- name: Add docker repo for apt
+  apt_repository:
+    repo: 'deb [arch=amd64] https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main'
+    state: present
+    update_cache: yes
+
+- name: Insall docker for apt
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+    name: 'docker-engine'
+
+- name: Install python modules
+  pip:
+    name: "{{ item }}"
+    extra_args: ' --upgrade '
+  with_items:
+    - docker-compose
+    - docker-py
+
+- name: Start Docker
+  service:
+    name: "docker"
+    enabled: yes
+    state: restarted
+  ignore_errors: yes
+
+- name: pull images
+  command: "docker pull {{ item }}"
+  with_items:
+    - paunin/postgresql-cluster-pgsql
+    - paunin/postgresql-cluster-pgpool
+    - alpine:edge
+    - mhart/alpine-node:latest
+    - timhaak/iac-demo
+    - ubuntu:latest
+    - timhaak/proxy
+    - registry
+    - timhaak/gotty-alpine

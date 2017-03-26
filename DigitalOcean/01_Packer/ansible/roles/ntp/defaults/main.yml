@@ -1,0 +1,6 @@
+---
+ntp_servers:
+  - '2.za.pool.ntp.org'
+  - '0.africa.pool.ntp.org'
+  - '3.africa.pool.ntp.org'
+  - 'pool.ntp.org'

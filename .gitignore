@@ -1,0 +1,8 @@
+# Created by .gitignore support plugin (hsz.mobi)
+.idea
+*.iml
+.DS_Store
+variable.tf
+terraform.tfstate*
+/DigitalOcean/02_Terraform/HaakCo-9015e8d30c3d.json/.idea/
+/DigitalOcean/01_Packer/ubuntu_packer_do_uk.json
