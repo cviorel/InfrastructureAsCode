@@ -20,7 +20,7 @@
       "execute_command": "chmod +x {{ .Path }}; {{ .Vars }} sudo -E sh '{{ .Path }}'",
       "inline": [
         "update-locale LANG=en_US.UTF-8",
-        "sudo sed -i -e \"s/mirrors\\.digitalocean/archive\\.ubuntu/g\" /etc/apt/sources.list",
+        "sed -i -e \"s/mirrors\\.digitalocean/archive\\.ubuntu/g\" /etc/apt/sources.list",
         "apt-get update",
         "apt-get install -y ansible python python-simplejson python-apt",
         "curl -sSL https://agent.digitalocean.com/install.sh | sh"

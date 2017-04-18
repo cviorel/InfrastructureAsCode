@@ -16,7 +16,8 @@
     state: stopped
 
 - name: Update time
-  command: ntpdate -s 2.za.pool.ntp.org
+  command: ntpdate -s pool.ntp.org
+  ignore_errors: yes
 
 - name: restart ntp service and set to auto start
   service:
