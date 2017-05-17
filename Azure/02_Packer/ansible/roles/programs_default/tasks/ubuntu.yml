@@ -1,0 +1,79 @@
+---
+
+- name: Update on debian-based distros
+  apt:
+    upgrade: dist
+    update_cache: yes
+    autoremove: yes
+    cache_valid_time: 600
+
+- name: install ubuntu default packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+    name: "{{ item }}"
+  with_items:
+    - apt-transport-https
+    - bash-completion
+    - btrfs-tools
+    - checkinstall
+    - conntrack
+    - curl
+    - build-essential
+    - ca-certificates
+    - cifs-utils
+    - dnsutils
+    - ebtables
+    - exfat-fuse
+    - exfat-utils
+    - easy-rsa
+    - jq
+    - fping
+    - git
+    - haveged
+    - htop
+    - iftop
+    - iotop
+    - iptables
+    - libssl-dev
+    - lsof
+    - man
+    - mc
+    - mtr
+    - mysql-client
+    - nano
+    - netcat
+    - nfs-common
+    - nmap
+    - ntp
+    - ntpdate
+    - openvpn
+    - pkg-config
+    - postgresql-client
+    - python-dev
+    - python-simplejson
+    - python-pip
+    - rsync
+    - screen
+    - smbclient
+    - ssl-cert
+    - supervisor
+    - sysdig
+    - tar
+    - telnet
+    - tinc
+    - tmux
+    - tree
+    - vim
+    - wget
+    - xtables-addons-common
+    - xtables-addons-dkms
+    - xz-utils
+    - zsh
+
+- name: Insure haveged started and autostarts
+  service:
+    name: haveged
+    state: restarted
+    enabled: yes
+

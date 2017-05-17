@@ -1,0 +1,10 @@
+---
+- hosts: all
+  roles:
+    - programs_default
+    - sysctl
+    - timezone
+    - ntp
+    - docker
+  become: true
+  gather_facts: true

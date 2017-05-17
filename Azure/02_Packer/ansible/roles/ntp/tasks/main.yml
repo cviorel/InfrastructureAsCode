@@ -1,0 +1,29 @@
+---
+- name: install ubuntu default packages
+  apt:
+    update_cache: yes
+    cache_valid_time: 600
+    name: "{{ item }}"
+  with_items:
+    - ntp
+
+- name: create start file for ntpd
+  template: src=ntp.conf.j2 dest="/etc/ntp.conf" owner=root group=root mode=0644
+
+- name: Stop ntp for time update
+  service:
+    name: ntp
+    state: stopped
+
+- name: Update time
+  command: ntpdate -s pool.ntp.org
+  ignore_errors: yes
+
+- name: restart ntp service and set to auto start
+  service:
+    name: ntp
+    enabled: yes
+    state: restarted
+  ignore_errors: yes
+
+

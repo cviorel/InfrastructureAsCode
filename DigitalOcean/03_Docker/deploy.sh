@@ -15,15 +15,19 @@ done
 for i in {0..4}
 do
   number=$(printf %02d $i)
-  delSSHHost 'do'${number}'.${DOMAIN}'
+  delSSHHost "do${number}.${DOMAIN}"
   delSSHHost "$(dig +short do${number}.${DOMAIN})"
 done
-
 
 for i in {0..4}
 do
   number=$(printf %02d $i)
   docker-machine rm -y "do${number}"
+done
+
+for i in {0..4}
+do
+  number=$(printf %02d $i)
   docker-machine create \
     --driver generic \
     --engine-storage-driver overlay2 \
